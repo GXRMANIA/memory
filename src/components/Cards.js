@@ -2,7 +2,7 @@ import React from "react";
 
 function Cards(props) {
     return (
-      <div>
+      <div className="cards">
             {props.cards.map((ele, index) => {
                 return <button onClick={props.onCardClick} key={index}>{ele}</button>
             })}

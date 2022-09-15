@@ -1,16 +1,17 @@
 import Cards from "./components/Cards";
 import Scoreboard from "./components/Scoreboard";
 import React, { useState } from "react";
-
+import './style.css' 
 
 function App(props) {
 
-    const [cards, setCards] = useState(["A", "B", "C"]);
-    const [score, setScore] = useState("0");
-    const [highScore, setHighScore] = useState("0");
+    const [cards, setCards] = useState(["A", "B", "C", "D"]);
+    const [score, setScore] = useState(0);
+    const [highScore, setHighScore] = useState(0);
     const [alreadyClicked, setAlreadyClicked] = useState([])
 
-    const allCards = ["A", "B", "C", "D", "E", "F", "G"]
+    const allCards = ["A", "B", "C", "D", "E", "F", "G" , "H", "I", "J", "K", "L", "M", "N"]
+    
 
     function displayNewCards(e) {
         let randomCards = [];
@@ -23,7 +24,17 @@ function App(props) {
         for(let i = 0; i < threeDifferentNumbers.length; i++) {
             randomCards.push(allCards[threeDifferentNumbers[i]])
         }
-        setCards(randomCards)
+
+        for(let i = 0; i<allCards.length; i++) {
+            if(!alreadyClicked.includes(allCards[i]) && !randomCards.includes(allCards[i])) {
+                console.log(!alreadyClicked.includes(allCards[i]))
+                randomCards.push(allCards[i])
+                setCards(randomCards)
+                return;
+            }
+            else setScore("You won the game!")
+        }
+
     }
 
     function getRandomInt(max) {
@@ -39,8 +50,11 @@ function App(props) {
     function checkIfAlreadyClicked(e) {
         console.log(alreadyClicked)
         if(alreadyClicked.includes(e.target.textContent)) {
-            console.log("Lost")
+            setAlreadyClicked([])
+            setScore(0)
         } else {
+            setScore(Number(score+1))
+            if(score >= highScore) setHighScore(score+1)
             let temp = alreadyClicked;
             temp.push(e.target.textContent)
             setAlreadyClicked(temp)
@@ -51,8 +65,8 @@ function App(props) {
 
     return (
         <div className="App">
-        <h1>Paladins Memory Game</h1>
-        <p>Get points by clicking on an image but dont click on any more than once!</p>
+        <h1>ABC Memory Game</h1>
+        <p>Get points by clicking on an letter but dont click on any more than once!</p>
         <Cards onCardClick={onCardClick} cards={cards}/>
         <Scoreboard score={score} highScore={highScore}/>
         </div>
